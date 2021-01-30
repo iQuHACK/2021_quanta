@@ -34,7 +34,6 @@ def add_rz(circ, team, loc):
 	circ.rz(theta, loc)
 	return circ
 
-
 #measure final state, n is the side length of the board
 def add_measurement(circ,n):
 	circ.measure(range(n*n),range(n*n))
