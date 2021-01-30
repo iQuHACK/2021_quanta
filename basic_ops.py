@@ -8,6 +8,7 @@ from qiskit.visualization import plot_state_city
 from qiskit.visualization import plot_histogram
 from qiskit.providers.jobstatus import JobStatus
 from qiskit import QuantumCircuit
+import math
 
 with open(".ionqkey.txt") as keyfile:
     key = keyfile.readline().strip('\n')
@@ -31,13 +32,13 @@ def rotate(qcircuit, team, loc):
 	qc=qcircuit
 	if team==1:
 		theta = math.pi/2.
-	else theta = -math.pi/2.
+	else: theta = -math.pi/2.
 	qc.rz(theta, loc)
 	return qc
 
 
 #measure final state, n is the side length of the board
-def measure(qcircuit,n)
+def measure(qcircuit,n):
 	qc=qcircuit
 	qc.measure(range(n*n),range(n*n))
 	return qc
