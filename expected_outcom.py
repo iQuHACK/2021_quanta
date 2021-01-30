@@ -2,10 +2,10 @@ from qiskit import Aer, execute
 from qiskit.visualization.utils import _bloch_multivector_data
 import numpy as np
 
-def expected_outcome(circ, shots = 1000):
+def expected_outcome(circ):
     # Caculates the probability of measurign 0 for each qubit
     state_sim = Aer.get_backend('statevector_simulator')
-    sim = execute(circ, state_sim, shots=shots)
+    sim = execute(circ, state_sim, shots=1000)
     state_sim_result = sim.result()
     state_vec = state_sim_result.get_statevector(decimals=3)
     p0s = []
