@@ -13,7 +13,7 @@ HIGHLIGHT = (255, 255, 100)
 MOUSEOVER = (160, 160, 160)
 
 class TTTBoard:
-    
+
     def __init__(self, screen, tiles, size, pos, pad, color, qid_start):
         self.screen = screen
         self.tiles = tiles
@@ -22,16 +22,16 @@ class TTTBoard:
         self.loc_y = pos[1]
         self.pad = pad
         self.color = color
-        
+
         self.highlighted = []
         self.mouseover_item = None
 
         self.tile_size = self.size / self.tiles
         self.qubits = []
         qid = qid_start
-        
+
         qubit_size = self.tile_size - 8 * self.pad
-        
+
         for row in range(self.tiles):
             self.qubits.append([])
             for col in range(self.tiles):
@@ -39,11 +39,11 @@ class TTTBoard:
                 y = int(self.loc_y + (row + 0.5) * self.tile_size)
                 self.qubits[row].append(TTTQubit(qid, row, col, self.screen, (x, y), qubit_size))
                 qid += 1
-    
+
     def draw_board(self):
-        
+
         sq_size = int(self.tile_size - 2 * self.pad)
-        
+
         for row in range(self.tiles):
             for col in range(self.tiles):
                 x = int(self.loc_x + col * self.tile_size + self.pad)
@@ -57,7 +57,12 @@ class TTTBoard:
                 pg.draw.rect(self.screen, color, (x, y, sq_size, sq_size))
                 self.qubits[row][col].draw()
         self.mouseover_item = None
-        
+
+    def set_qubits(self, probabilities):
+        for row in self.qubits:
+            for qubit in row:
+                qubit.set_probability(probabilities[qubit.qid])
+
     def find_qubit(self, pos):
         if self.loc_x < pos[0] < self.loc_x + self.size:
             col = int((pos[0] - self.loc_x) // self.tile_size)
@@ -69,19 +74,19 @@ class TTTBoard:
             row = min(row, self.tiles)
         else:
             return None
-        
+
         return self.qubits[row][col]
-    
+
     def highlight(self, row, col):
         if (row, col) not in self.highlighted:
             self.highlighted.append((row, col))
-    
+
     def mouseover(self, item):
         if item is not None:
             self.mouseover_item = item
-    
+
     def draw_cnot(self, control, target):
         pass
-    
+
     def reset(self):
         self.highlighted = []

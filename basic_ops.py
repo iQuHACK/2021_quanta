@@ -2,11 +2,11 @@
 #import Aer here, before calling qiskit_ionq_provider
 from qiskit import Aer, execute
 # import all the other stuff
-from qiskit_ionq_provider import IonQProvider 
+from qiskit_ionq_provider import IonQProvider
 from qiskit import QuantumCircuit
 import math
 
-with open(".ionqkey.txt") as keyfile:
+with open(".ionqkey") as keyfile:
     key = keyfile.readline().strip('\n')
 #Call provider and set token value
 provider = IonQProvider(token=key)#Call provider and set token value
@@ -23,10 +23,10 @@ def add_cnot(circ,control,target):
     return circ
 
 #rotation
-def add_ry(circ, team, loc):
-	if team==1:
-		theta = math.pi/2.
-	else: theta = -math.pi/2.
+def add_ry(circ, direction, loc):
+	if direction==1:
+		theta = math.pi/math.sqrt(5)
+	else: theta = -math.pi/math.sqrt(5)
 	circ.ry(theta, loc)
 	return circ
 
