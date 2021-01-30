@@ -23,11 +23,11 @@ def add_cnot(circ,control,target):
     return circ
 
 #rotation
-def add_rz(circ, team, loc):
+def add_ry(circ, team, loc):
 	if team==1:
 		theta = math.pi/2.
 	else: theta = -math.pi/2.
-	circ.rz(theta, loc)
+	circ.ry(theta, loc)
 	return circ
 
 #measure final state, n is the side length of the board
