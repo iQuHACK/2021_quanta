@@ -25,3 +25,9 @@ def entangle(qcircuit,team,bit):
     qc=qcircuit
     qc.cx(team,bit-1)
     return qc
+
+#measure final state, n is the side length of the board
+def measure(qcircuit,n)
+	qc=qcircuit
+	qc.measure(range(n*n+2),range(n*n+2))
+	return qc
