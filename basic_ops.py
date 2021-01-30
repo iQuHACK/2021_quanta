@@ -3,10 +3,6 @@
 from qiskit import Aer, execute
 # import all the other stuff
 from qiskit_ionq_provider import IonQProvider 
-from qiskit.quantum_info import entropy, DensityMatrix, partial_trace
-from qiskit.visualization import plot_state_city
-from qiskit.visualization import plot_histogram
-from qiskit.providers.jobstatus import JobStatus
 from qiskit import QuantumCircuit
 import math
 
