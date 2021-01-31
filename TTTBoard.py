@@ -11,6 +11,7 @@ from TTTQubit import TTTQubit
 
 HIGHLIGHT = (255, 255, 100)
 MOUSEOVER = (160, 160, 160)
+BLACK = (0, 0, 0)
 
 class TTTBoard:
 
@@ -86,7 +87,29 @@ class TTTBoard:
             self.mouseover_item = item
 
     def draw_cnot(self, control, target):
-        pass
+        col = control.col
+        row = control.row
+        cx = int(self.loc_x + (col + 0.5) * self.tile_size)
+        cy = int(self.loc_y + (row + 0.5) * self.tile_size)
+        cpos = (cx, cy)
+
+        r = 20
+
+        col = target.col
+        row = target.row
+        tx = int(self.loc_x + (col + 0.5) * self.tile_size)
+        ty = int(self.loc_y + (row + 0.5) * self.tile_size)
+        tpos = (tx, ty)
+
+        x1 = (tx - r, ty - r)
+        x2 = (tx + r, ty + r)
+        x3 = (tx - r, ty + r)
+        x4 = (tx + r, ty - r)
+
+        pg.draw.circle(self.screen, BLACK, cpos, r)
+        pg.draw.line(self.screen, BLACK, cpos, tpos, 8)
+        pg.draw.line(self.screen, BLACK, x1, x2, 15)
+        pg.draw.line(self.screen, BLACK, x3, x4, 15)
 
     def reset(self):
         self.highlighted = []
