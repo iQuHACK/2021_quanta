@@ -28,6 +28,7 @@ def plot_result(result):
     ax.set_xticks(x)
     ax.set_xticklabels(labels, fontsize = 15)
     ax.tick_params(labelsize = 15)
+    plt.show()
 
 def test_win(lst): #return 0 for player 0 win, 1 for player 1 win, 2 for tie or neither wins
     win1=0
