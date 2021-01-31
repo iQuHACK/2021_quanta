@@ -8,7 +8,7 @@ import time
 with open(".ionqkey.txt") as keyfile:
     key = keyfile.readline().strip('\n')
 
-def single_shot(circ, single = True):
+def single_shot(circ, single = False):
     provider = IonQProvider(token=key)
     qpu_backend = provider.get_backend("ionq_qpu")
     if single == False:
