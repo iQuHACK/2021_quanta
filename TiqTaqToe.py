@@ -47,13 +47,13 @@ class TiqTaqToe:
         self.target_text = self.font_small.render('choose a target qubit', True, (0,0,0))
         self.control_text = self.font_small.render('choose a control qubit', True, (0,0,0))
         self.wait_text = self.font_small.render('Preliminary result (waiting on IonQ machine...)', True, (0,0,0))
+        self.end_text = self.font.render('Game Over! Results:', True, (0,0,0))
 
         self.circ = basic_ops.initialize(self.tiles)
         self.update_probabilities()
 
     def update_probabilities(self):
         prob_zero_list = expected_outcome(self.circ)
-        print(prob_zero_list)
 
         self.board.set_qubits(prob_zero_list)
 
@@ -166,16 +166,19 @@ class TiqTaqToe:
         self.screen.fill((255, 255, 255))
         self.board.draw_board()
         self.menu.draw()
-        self.screen.blit(self.wait_text, (400, 80))
+        self.screen.blit(self.wait_text, (100, 80))
         pg.display.update()
 
         counts = single_shot(self.circ)
         game_result.plot_result(counts)
+        image = pg.image.load("plt.png").convert()
 
         while True:
             self.screen.fill((255, 255, 255))
-            self.board.draw_board()
-            self.menu.draw()
+            self.screen.blit(self.end_text, (200, 50))
+            # self.board.draw_board()
+            # self.menu.draw()
+            self.screen.blit(image, (200, 200))
 
             for event in pg.event.get():
                 if event.type == pg.QUIT:
