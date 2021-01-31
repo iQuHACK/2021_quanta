@@ -1,3 +1,6 @@
+import matplotlib.pyplot as _plt
+
+
 def game_result(result):
     wins1 = 0
     wins2 = 0
@@ -11,6 +14,8 @@ def game_result(result):
             pass
     return wins1, wins2
 
+def plot_result(wins1, wins2):
+    _plt.bar([0,1], [wins1,wins2])
 
 def test_win(lst): #return 0 for player 0 win, 1 for player 1 win, 2 for tie or neither wins
     win1=0
