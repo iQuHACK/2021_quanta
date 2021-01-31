@@ -1,6 +1,3 @@
-
-
-
 def game_result(result):
     wins1 = 0
     wins2 = 0
@@ -10,7 +7,7 @@ def game_result(result):
             wins1 += result[kk]
         elif not test_win(lst):
             wins2 += result[kk]
-        else:
+        elif test_win(lst) == 2:
             pass
     return wins1, wins2
 
