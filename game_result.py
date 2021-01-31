@@ -1,5 +1,5 @@
-import matplotlib.pyplot as _plt
-
+import matplotlib.pyplot as plt
+import numpy as np
 
 def game_result(result):
     wins1 = 0
@@ -12,10 +12,23 @@ def game_result(result):
             wins2 += result[kk]
         elif test_win(lst) == 2:
             pass
-    return wins1, wins2
+    return (wins1, wins2)
 
-def plot_result(wins1, wins2):
-    _plt.bar([0,1], [wins1,wins2])
+def plot_result(result):
+    labels = ['player1', 'player2']
+    result = game_result(result)
+
+    x = np.arange(len(labels))  # the label locations
+    width = 0.35  # the width of the bars
+
+    fig, ax = plt.subplots()
+    ax.bar(x, result, width)
+
+    ax.set_ylabel('Scores', fontsize = 15)
+    ax.set_xticks(x)
+    ax.set_xticklabels(labels, fontsize = 15)
+    ax.tick_params(labelsize = 15)
+    plt.show()
 
 def test_win(lst): #return 0 for player 0 win, 1 for player 1 win, 2 for tie or neither wins
     win1=0
