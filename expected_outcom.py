@@ -16,5 +16,5 @@ def expected_outcome(circ):
             theta = np.pi/2
         p0 = round(np.cos(theta/2)**2,2)
         p0s.append(p0)
-    
+
     return p0s

@@ -14,7 +14,7 @@ P1 = (255, 0, 0)
 P2 = (0, 0, 255)
 
 class TTTQubit:
-    
+
     def __init__(self, qid, row, col, screen, center, size, color=BLACK):
         self.qid = qid
         self.row = row
@@ -23,10 +23,14 @@ class TTTQubit:
         self.r = size / 2
         self.center = center
         self.color = color
-        
-    def set_entanglement(self, e1, e2):
-        color = [BLACK[i] + e1 * P1[i] + e2 * P2[i] for i in range(3)]
+
+    def set_probability(self, prob):
+        color = [max(min(prob * P1[i] + (1 - prob) * P2[i], 255), 0) for i in range(3)]
         self.color = color
-    
+
     def draw(self):
-        pg.draw.circle(self.screen, self.color, self.center, self.r)
+        try:
+            pg.draw.circle(self.screen, self.color, self.center, self.r)
+        except ValueError as e:
+            print(self.color)
+            print(e)
