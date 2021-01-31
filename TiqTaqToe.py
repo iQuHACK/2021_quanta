@@ -50,6 +50,7 @@ class TiqTaqToe:
 
     def update_probabilities(self):
         prob_zero_list = expected_outcome(self.circ)
+        print(prob_zero_list)
 
         self.board.set_qubits(prob_zero_list)
 
@@ -123,7 +124,7 @@ class TiqTaqToe:
 
             if state is self.State.CHOOSE_2Q_TARGET:
                 if mouse_qubit is not None and mouse_qubit != control_qubit:
-                    self.board.draw_cnot(control_qubit, mouse_qubit)
+                    # self.board.draw_cnot(control_qubit, mouse_qubit)
                     self.board.mouseover(mouse_qubit)
             elif state is not self.State.CHOOSE_GATE:
                 self.board.mouseover(mouse_qubit)
