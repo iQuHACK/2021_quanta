@@ -6,7 +6,7 @@ from qiskit_ionq_provider import IonQProvider
 from qiskit import QuantumCircuit
 import math
 
-with open(".ionqkey") as keyfile:
+with open(".ionqkey.txt") as keyfile:
     key = keyfile.readline().strip('\n')
 #Call provider and set token value
 provider = IonQProvider(token=key)#Call provider and set token value
@@ -14,7 +14,7 @@ provider = IonQProvider(token=key)#Call provider and set token value
 # initialize board with side length n (currently allows 1 (trivial), 2 and 3). Adds an ancilla qubit for each team. Each qubit is associated with a classical channel for readout.
 def initialize(n):
     circ = QuantumCircuit(n*n,n*n)
-    circ.h(range(n*n))
+    circ.rx(math.pi/2.,range(n*n))
     return circ
 
 # entangle the team qubit with a chosen location on the board (numbered starting at 1 from the upper left corner and proceeding left to right by row.)
@@ -23,11 +23,11 @@ def add_cnot(circ,control,target):
     return circ
 
 #rotation
-def add_ry(circ, direction, loc):
+def add_rx(circ, direction, loc):
 	if direction==1:
 		theta = math.pi/math.sqrt(5)
 	else: theta = -math.pi/math.sqrt(5)
-	circ.ry(theta, loc)
+	circ.rx(theta, loc)
 	return circ
 
 #measure final state, n is the side length of the board
