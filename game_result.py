@@ -1,3 +1,6 @@
+import matplotlib.pyplot as _plt
+
+
 def game_result(result):
     wins1 = 0
     wins2 = 0
