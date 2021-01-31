@@ -13,6 +13,8 @@ from TTTBoard import TTTBoard
 from TTTMenu import TTTMenu
 import basic_ops
 from expected_outcom import expected_outcome
+from single_shot_measurement import single_shot
+import game_result
 
 class TiqTaqToe:
 
@@ -44,6 +46,7 @@ class TiqTaqToe:
         self.gate_text = self.font_small.render('choose a gate', True, (0,0,0))
         self.target_text = self.font_small.render('choose a target qubit', True, (0,0,0))
         self.control_text = self.font_small.render('choose a control qubit', True, (0,0,0))
+        self.wait_text = self.font_small.render('Preliminary result (waiting on IonQ machine...)', True, (0,0,0))
 
         self.circ = basic_ops.initialize(self.tiles)
         self.update_probabilities()
@@ -60,6 +63,8 @@ class TiqTaqToe:
         control_qubit = None
         gate = None
         player1 = True
+
+        move = 0
 
         while playing:
             self.screen.fill((255, 255, 255))
@@ -86,6 +91,7 @@ class TiqTaqToe:
                                 self.menu.reset()
                                 state = self.State.CHOOSE_GATE
                                 player1 = not player1
+                                move += 1
 
                         elif state is not self.State.CHOOSE_GATE:
                             if gate == 'rot_plus_y':
@@ -100,6 +106,7 @@ class TiqTaqToe:
                             state = self.State.CHOOSE_GATE
                             self.menu.reset()
                             player1 = not player1
+                            move += 1
 
                     menu_item = self.menu.find_item(event.pos)
                     if menu_item is not None:
@@ -144,12 +151,27 @@ class TiqTaqToe:
             else:
                 self.screen.blit(self.target_text, (400, 80))
 
+            if move >= 20:
+                basic_ops.add_measurement(self.circ, self.tiles)
+                self.update_probabilities()
+                playing = False
+
             pg.display.update()
             self.clock.tick(30)
         self.end_game()
 
     def end_game(self):
         self.update_probabilities()
+
+        self.screen.fill((255, 255, 255))
+        self.board.draw_board()
+        self.menu.draw()
+        self.screen.blit(self.wait_text, (400, 80))
+        pg.display.update()
+
+        counts = single_shot(self.circ)
+        game_result.plot_result(counts)
+
         while True:
             self.screen.fill((255, 255, 255))
             self.board.draw_board()
