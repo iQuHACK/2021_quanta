@@ -32,10 +32,10 @@ class TiqTaqToe:
         self.screen = pg.display.set_mode((self.w, self.h))
         self.clock = pg.time.Clock()
 
-        self.board = TTTBoard(self.screen, self.tiles, w/2, (w/4, h/4), 10, (200,200,200), 0)
+        self.board = TTTBoard(self.screen, self.tiles, w/2, (3/8*w, h/4), 10, (200,200,200), 0)
         self.board.draw_board()
 
-        self.menu = TTTMenu(self.screen, 100, (20, 20), 10, (200,200,255))
+        self.menu = TTTMenu(self.screen, 100, (1/16*w, h/4), 10, (200,200,255))
 
         self.font = pg.font.SysFont('Corbel', 80)
         self.font_small = pg.font.SysFont('Corbel', 40)
@@ -78,21 +78,21 @@ class TiqTaqToe:
 
                         elif state is self.State.CHOOSE_2Q_TARGET:
                             # TODO: Act on both qubits with gate
+                            if qubit != control_qubit:
+                                basic_ops.add_cnot(self.circ, control_qubit.qid, qubit.qid)
+                                self.update_probabilities()
 
-                            basic_ops.add_cnot(self.circ, control_qubit.qid, qubit.qid)
-                            self.update_probabilities()
-
-                            self.board.reset()
-                            self.menu.reset()
-                            state = self.State.CHOOSE_GATE
-                            player1 = not player1
+                                self.board.reset()
+                                self.menu.reset()
+                                state = self.State.CHOOSE_GATE
+                                player1 = not player1
 
                         elif state is not self.State.CHOOSE_GATE:
                             # TODO: Act on qubit with gate
 
-                            if gate == 'rot_plus':
+                            if gate == 'rot_plus_y':
                                 basic_ops.add_ry(self.circ, 1, qubit.qid)
-                            elif gate == 'rot_minus':
+                            elif gate == 'rot_minus_y':
                                 basic_ops.add_ry(self.circ, -1, qubit.qid)
                             self.update_probabilities()
                             state = self.State.CHOOSE_GATE
@@ -120,9 +120,13 @@ class TiqTaqToe:
 
             if state is not self.State.CHOOSE_2Q_TARGET:
                 self.menu.mouseover(mouse_menu_item)
-            if state is not self.State.CHOOSE_GATE:
-                self.board.mouseover(mouse_qubit)
 
+            if state is self.State.CHOOSE_2Q_TARGET:
+                if mouse_qubit is not None and mouse_qubit != control_qubit:
+                    self.board.draw_cnot(control_qubit, mouse_qubit)
+                    self.board.mouseover(mouse_qubit)
+            elif state is not self.State.CHOOSE_GATE:
+                self.board.mouseover(mouse_qubit)
 
             if player1:
                 self.screen.blit(self.p1_text, (400, 20))

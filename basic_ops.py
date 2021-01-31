@@ -6,7 +6,7 @@ from qiskit_ionq_provider import IonQProvider
 from qiskit import QuantumCircuit
 import math
 
-with open(".ionqkey") as keyfile:
+with open(".ionqkey.txt") as keyfile:
     key = keyfile.readline().strip('\n')
 #Call provider and set token value
 provider = IonQProvider(token=key)#Call provider and set token value
