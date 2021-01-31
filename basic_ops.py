@@ -22,12 +22,20 @@ def add_cnot(circ,control,target):
     circ.cx(control,target)
     return circ
 
-#rotation
+#rotation around x axis
 def add_rx(circ, direction, loc):
 	if direction==1:
-		theta = math.pi/math.sqrt(5)
-	else: theta = -math.pi/math.sqrt(5)
+		theta = math.pi/4.
+	else: theta = -math.pi/4.
 	circ.rx(theta, loc)
+	return circ
+
+#rotation around y axis
+def add_ry(circ, direction, loc):
+	if direction==1:
+		theta = math.pi/4.
+	else: theta = -math.pi/4.
+	circ.ry(theta, loc)
 	return circ
 
 #measure final state, n is the side length of the board
