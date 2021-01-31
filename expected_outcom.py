@@ -11,7 +11,7 @@ def expected_outcome(circ):
     p0s = []
     for kk in _bloch_multivector_data(state_vec):
         if kk[2] != 0:
-            theta = np.arccos(round(kk[2]/np.sum(np.asarray(kk)**2), 3))
+            theta = np.arccos(round(kk[2]/np.sum(np.asarray(kk)**2)))
         else:
             theta = np.pi/2
         p0 = round(np.cos(theta/2)**2,2)
