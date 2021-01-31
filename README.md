@@ -9,8 +9,9 @@ The Quantum Tiq-Taq-Toe is a 1 vs. 1 game similar to it's classical counterpart.
 
 ## How to run the code
 The game is based on Pygame so first run\
-`pip install pygame`\
-To get the final result from the IonQ machine, a file named `.ionqkey.txt` need to be created at the local directory and it should include the API key. Once these are setup, run `python TiqTaqToe.py`.\
+`pip install pygame`.\
+To get the final result from the IonQ machine, a file named `.ionqkey.txt` needs to be created at the local directory and it should include the API key. Once these are setup, run\
+`python TiqTaqToe.py`.\
 Once the game is running, the game proceeds in turns. In a turn, players first pick a gate by clicking on the icons on the left of the window and then click to choose the qubit this gate should act on. For the CNOT gate, the first click of qubit will set the control qubit and the second click will set the target qubit.
 
 
