@@ -10,15 +10,11 @@ def expected_outcome(circ):
     state_vec = state_sim_result.get_statevector(decimals=3)
     p0s = []
     for kk in _bloch_multivector_data(state_vec):
-        print(kk)
-        if round(kk[2], 5) != 0:
-            print(kk)
-            print(kk[2]/np.sum(np.asarray(kk)**2))
-            print(round(kk[2]/np.sum(np.asarray(kk)**2)))
-            theta = np.arccos(round(kk[2]/np.sum(np.asarray(kk)**2)))
+        if round(kk[2], 4) != 0:
+            theta = np.arccos(round(kk[2], 4))
         else:
             theta = np.pi/2
-        p0 = round(np.cos(theta/2)**2,2)
+        p0 = round(np.cos(theta/2)**2,3)
         p0s.append(p0)
 
     return p0s

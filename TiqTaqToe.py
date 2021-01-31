@@ -61,7 +61,7 @@ class TiqTaqToe:
         gate = None
         player1 = True
 
-        while True:
+        while playing:
             self.screen.fill((255, 255, 255))
             self.board.draw_board()
             self.menu.draw()
@@ -78,7 +78,6 @@ class TiqTaqToe:
                             state = self.State.CHOOSE_2Q_TARGET
 
                         elif state is self.State.CHOOSE_2Q_TARGET:
-                            # TODO: Act on both qubits with gate
                             if qubit != control_qubit:
                                 basic_ops.add_cnot(self.circ, control_qubit.qid, qubit.qid)
                                 self.update_probabilities()
@@ -89,12 +88,14 @@ class TiqTaqToe:
                                 player1 = not player1
 
                         elif state is not self.State.CHOOSE_GATE:
-                            # TODO: Act on qubit with gate
-
                             if gate == 'rot_plus_y':
                                 basic_ops.add_ry(self.circ, 1, qubit.qid)
                             elif gate == 'rot_minus_y':
                                 basic_ops.add_ry(self.circ, -1, qubit.qid)
+                            if gate == 'rot_plus_x':
+                                basic_ops.add_rx(self.circ, 1, qubit.qid)
+                            elif gate == 'rot_minus_x':
+                                basic_ops.add_rx(self.circ, -1, qubit.qid)
                             self.update_probabilities()
                             state = self.State.CHOOSE_GATE
                             self.menu.reset()
@@ -105,6 +106,8 @@ class TiqTaqToe:
                         if menu_item == 'measure':
                             # TODO: Measure
                             basic_ops.add_measurement(self.circ, self.tiles)
+                            self.update_probabilities()
+                            playing = False
                         else:
                             if state is not self.State.CHOOSE_2Q_TARGET:
                                 self.menu.reset()
@@ -124,7 +127,7 @@ class TiqTaqToe:
 
             if state is self.State.CHOOSE_2Q_TARGET:
                 if mouse_qubit is not None and mouse_qubit != control_qubit:
-                    # self.board.draw_cnot(control_qubit, mouse_qubit)
+                    self.board.draw_cnot(control_qubit, mouse_qubit)
                     self.board.mouseover(mouse_qubit)
             elif state is not self.State.CHOOSE_GATE:
                 self.board.mouseover(mouse_qubit)
@@ -140,6 +143,22 @@ class TiqTaqToe:
                 self.screen.blit(self.control_text, (400, 80))
             else:
                 self.screen.blit(self.target_text, (400, 80))
+
+            pg.display.update()
+            self.clock.tick(30)
+        self.end_game()
+
+    def end_game(self):
+        self.update_probabilities()
+        while True:
+            self.screen.fill((255, 255, 255))
+            self.board.draw_board()
+            self.menu.draw()
+
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    pg.quit()
+                    sys.exit()
 
             pg.display.update()
             self.clock.tick(30)
