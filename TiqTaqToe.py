@@ -96,12 +96,16 @@ class TiqTaqToe:
                         elif state is not self.State.CHOOSE_GATE:
                             if gate == 'rot_plus_y':
                                 basic_ops.add_ry(self.circ, 1, qubit.qid)
+                                print(qubit.qid)
                             elif gate == 'rot_minus_y':
                                 basic_ops.add_ry(self.circ, -1, qubit.qid)
+                                print(qubit.qid)
                             if gate == 'rot_plus_x':
                                 basic_ops.add_rx(self.circ, 1, qubit.qid)
+                                print(qubit.qid)
                             elif gate == 'rot_minus_x':
                                 basic_ops.add_rx(self.circ, -1, qubit.qid)
+                                print(qubit.qid)
                             self.update_probabilities()
                             state = self.State.CHOOSE_GATE
                             self.menu.reset()
